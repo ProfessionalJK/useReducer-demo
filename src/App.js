@@ -1,6 +1,6 @@
 import React, {useReducer} from "react";
 import "./index.css";
-
+/*
 const iState = {name: "Jack", wish: 'Eat'};
 
 const reducer = (state, action) => {
@@ -36,3 +36,62 @@ export default function App() {
     </div>
   );
 }
+*/
+
+const people = [
+  {name: 'Jay', alive: true},
+  {name: 'Kailee', alive: true},
+  {name: 'John', alive: true},
+  {name: 'Mia', alive: true}
+]
+
+const reducer = (people, action) => {
+  if(action.type === 'chomp'){
+    return people.map(person => {
+      if(person.name === action.payload){
+        person.alive = false;
+      }
+      return person
+    });
+  }
+  if(action.type === 'revive'){
+    return people.map(person => {
+      if(person.name === action.payload){
+        person.alive = true;
+      }
+      return person
+    });
+  }
+}
+
+function App(){
+  const [state, dispatch] = useReducer(reducer, people);
+  const devour = (name) => {
+    dispatch({type: 'chomp', payload: name});
+  }
+  const spitOut = (name) => {
+    dispatch({type: 'revive', payload: name});
+  }
+  return(
+    <div className="fun">
+      <table>
+      {state.map((person, index) => (
+        <tr key={index}>
+          <td style={{width: "50%"}}>
+            {person.name}
+          </td>
+          {person.alive?
+            <td>Alive &nbsp;&nbsp;&nbsp;&nbsp;
+            <button onClick={() => devour(person.name)}>Devour</button>
+          </td>:<td>Dead &nbsp;&nbsp;&nbsp;&nbsp;
+            <button onClick={() => spitOut(person.name)}>SpitOut</button>
+          </td>
+        }
+          </tr>
+      ))}
+      </table>
+    </div>
+  );
+}
+
+export default App;
