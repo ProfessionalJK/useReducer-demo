@@ -8,8 +8,8 @@ const reducer = (state, action) => {
     case 'CHANGE_NAME': 
       return{
         ...state,
-        name: action.payload1,
-        wish: action.payload2
+        name: action.payload[0],
+        wish: action.payload[1]
       }
     default: 
       return state
@@ -23,7 +23,7 @@ export default function App() {
   fetch("https://jsonplaceholder.typicode.com/users")
   .then(res=>res.json())
   .then(res2=>{
-    dispatch1({type: "CHANGE_NAME", payload1: res2[0].name, payload2: "Sleep"})
+    dispatch1({type: "CHANGE_NAME", payload: [res2[0].name, "Sleep"]})
   })
 }
   return (
@@ -32,7 +32,7 @@ export default function App() {
       <h2>I wish to {data1.wish}</h2>
       <button onClick={() => getName()}>Change Name</button>
       <h2>I am {data2.name} and I wish to {data2.wish}</h2>
-      <button onClick={() => dispatch2({type: "CHANGE_NAME", payload1: "Jill", payload2: "Code"})}>Change Name</button>
+      <button onClick={() => dispatch2({type: "CHANGE_NAME", payload: ["Jill", "Code"]})}>Change Name</button>
     </div>
   );
 }
